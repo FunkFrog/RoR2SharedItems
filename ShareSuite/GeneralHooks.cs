@@ -67,7 +67,7 @@ namespace ShareSuite
         private static void OverrideBossLootScaling(On.RoR2.TeleporterInteraction.orig_OnInteractionBegin orig,
             TeleporterInteraction self, Interactor activator)
         {
-            if (ShareSuite.OverrideBossLootScalingEnabled.Value)
+            if (!ShareSuite.MultitudesIsActive && ShareSuite.OverrideBossLootScalingEnabled.Value)
                 _bossItems = ShareSuite.BossLootCredit.Value;
             else
                 _bossItems = Run.instance.participatingPlayerCount;
@@ -134,7 +134,7 @@ namespace ShareSuite
             }
 
             // Set interactables budget to interactableCredit * config player count / sacrificeOffset.
-            if (ShareSuite.OverridePlayerScalingEnabled.Value && (!SceneInfo.instance 
+            if (!ShareSuite.MultitudesIsActive && ShareSuite.OverridePlayerScalingEnabled.Value && (!SceneInfo.instance 
                     || !NoInteractibleOverrideScenes.Contains(SceneInfo.instance.sceneDef.nameToken)))
                 self.interactableCredit = (int) (interactableCredit * ShareSuite.InteractablesCredit.Value / sacrificeOffset);
 

@@ -12,6 +12,7 @@ using UnityEngine.Networking;
 namespace ShareSuite
 {
     [BepInDependency("com.bepis.r2api")]
+    [BepInDependency("dev.wildbook.multitudes", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInPlugin("com.funkfrog_sipondo.sharesuite", "ShareSuite", "2.0.0")]
     [R2APISubmoduleDependency("CommandHelper", "ItemDropAPI")]
     public class ShareSuite : BaseUnityPlugin
@@ -63,12 +64,24 @@ namespace ShareSuite
             }
         }
 
+        internal static bool MultitudesIsActive => _multitudesMultiplierConfig != null && _multitudesMultiplierConfig.Value != 1;
+        private static ConfigEntry<int> _multitudesMultiplierConfig;
+
         public static double DefaultMaxScavItemDropCount;
 
         public ShareSuite()
         {
             InitConfig();
             CommandHelper.AddToConsoleWhenReady();
+
+            foreach (var pluginInfo in BepInEx.Bootstrap.Chainloader.PluginInfos)
+            {
+                if (pluginInfo.Value.Metadata.GUID.Equals("dev.wildbook.multitudes"))
+                {
+                    pluginInfo.Value.Instance.Config.TryGetEntry("Game", "Multiplier", out _multitudesMultiplierConfig);
+                    break;
+                }
+            }
 
             //On.RoR2.Networking.GameNetworkManager.OnClientConnect += (self, user, t) => { };
 
@@ -629,6 +642,9 @@ namespace ShareSuite
             helpText = "Modifies whether interactable count should scale based on player count.")]
         private static void CcDisablePlayerScaling(ConCommandArgs args)
         {
+            if (MultitudesIsActive)
+                Debug.Log("Please note that the Multitudes mod is currently active so this command doesnt have any effect currently.");
+
             if (args.Count == 0)
             {
                 Debug.Log(OverridePlayerScalingEnabled.Value);
@@ -671,6 +687,9 @@ namespace ShareSuite
             helpText = "Modifies whether boss loot should scale based on player count.")]
         private static void CcBossLoot(ConCommandArgs args)
         {
+            if (MultitudesIsActive)
+                Debug.Log("Please note that the Multitudes mod is currently active so this command doesnt have any effect currently.");
+
             if (args.Count == 0)
             {
                 Debug.Log(OverrideBossLootScalingEnabled.Value);

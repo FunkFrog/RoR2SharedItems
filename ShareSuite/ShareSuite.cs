@@ -2,7 +2,7 @@
 using System.Linq;
 using BepInEx;
 using BepInEx.Configuration;
-using R2API.Utils;
+using EnigmaticThunder.Modules;
 using RoR2;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -11,10 +11,9 @@ using UnityEngine.Networking;
 
 namespace ShareSuite
 {
-    [BepInDependency("com.bepis.r2api")]
-    [BepInPlugin("com.funkfrog_sipondo.sharesuite-r2", "ShareSuite-R2", "2.5.1")]
-    [R2APISubmoduleDependency("CommandHelper")]
-    [NetworkCompatibility(CompatibilityLevel.NoNeedForSync, VersionStrictness.DifferentModVersionsAreOk)]
+    [BepInDependency("com.EnigmaDev.EnigmaticThunder")]
+    [BepInPlugin("com.funkfrog_sipondo.sharesuite-et", "ShareSuite-ET", "2.5.1")]
+    // [NetworkCompatibility(CompatibilityLevel.NoNeedForSync, VersionStrictness.DifferentModVersionsAreOk)]
     public class ShareSuite : BaseUnityPlugin
     {
         #region ConfigWrapper init

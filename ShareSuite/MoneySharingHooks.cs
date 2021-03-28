@@ -1,10 +1,8 @@
 using System;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using BepInEx.Configuration;
+using EnigmaticThunder.Util;
 using EntityStates.GoldGat;
 using MonoMod.Cil;
-using R2API.Utils;
 using RoR2;
 using UnityEngine;
 using UnityEngine.Networking;
